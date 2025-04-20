@@ -16,13 +16,11 @@ import (
 //
 //	Magic       uint32 ("SYMF" == 0x46594D53)
 //	SymbolCount uint32
-//	StringsSize uint64
 //
 // Total size: 16 bytes.
 type FileHeader struct {
 	Magic       uint32
 	SymbolCount uint32
-	StringsSize uint64
 }
 
 // Symbol is each fixed-size entry in the SYMF file:
@@ -49,7 +47,7 @@ func main() {
 	}
 	objPath := flag.Arg(0)
 	outPath := flag.Arg(1)
-	
+
 	out, err := exec.Command("nm", objPath).Output()
 	if err != nil {
 		log.Fatalf("failed to run nm on %s: %v", objPath, err)
@@ -92,7 +90,6 @@ func main() {
 	head := FileHeader{
 		Magic:       symfMagic,
 		SymbolCount: uint32(len(syms)),
-		StringsSize: uint64(strtab.Len()),
 	}
 
 	// 5) Write everything out
