@@ -48,7 +48,7 @@ func main() {
 	objPath := flag.Arg(0)
 	outPath := flag.Arg(1)
 
-	out, err := exec.Command("nm", objPath).Output()
+	out, err := exec.Command("nm", "-n", objPath).Output()
 	if err != nil {
 		log.Fatalf("failed to run nm on %s: %v", objPath, err)
 	}
